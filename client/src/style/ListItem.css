@@ -1,0 +1,31 @@
+.list-item {
+  border: 2px solid #999;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 5px;
+}
+
+.list-item > div {
+  border-left: 2px solid #999;
+  display: inline-block;
+  float: right;
+  font-size: 20px;
+  text-align: center;
+  width: 50px;
+}
+
+.list-item .product-status {
+  display: block;
+}
+
+.list-item .product-anchor {
+  color: #999;
+}
+
+.add-button {
+  color: #396;
+}
+
+.delete-button {
+  color: #f66;
+}

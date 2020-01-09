@@ -1,0 +1,42 @@
+.need-list {
+  margin: 0 auto;
+  text-align: left;
+  width: 50%;
+}
+
+.need-list p {
+  display: inline-block;
+}
+
+.need-list-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  font-size: 20px;
+  height: 40px;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.need-list-header > div {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+.need-list-header > div input {
+  border: 2px solid #999;
+  border-radius: 5px;
+  height: 30px;
+  padding-left: 10px;
+  width: 300px;
+}
+
+.need-list-header div svg {
+  color: #999;
+  height: 36px;
+}
+
+.need-list span {
+  margin: 0 10px;
+}
