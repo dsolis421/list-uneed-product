@@ -12,7 +12,7 @@ exports.getFullList = (req, resp, next) => {
   .catch(err => {
     console.log('controller error: ', err);
     next(err);
-  })
+  });
 };
 
 exports.removeListItem = (req, resp, next) => {
@@ -25,5 +25,23 @@ exports.removeListItem = (req, resp, next) => {
   .catch(err => {
     console.log('item delete error: ',err);
     next(err);
+  });
+};
+
+exports.addListItem = (req, resp, next) => {
+  console.log('trying to clone at the controller...');
+  const ITEM = new listings({
+    status: 'Needed',
+    name: req.body.name || 'No Name',
+    producturl: req.body.producturl || ''
+  });
+  ITEM.save()
+  .then(() => {
+    console.log('cloned a list item');
+    return resp.status(201).send({error: false});
   })
+  .catch(err => {
+    console.log('item delete error: ',err);
+    next(err);
+  });
 };

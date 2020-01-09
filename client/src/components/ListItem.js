@@ -11,6 +11,11 @@ class ListItem extends Component {
           </span>
         </div>
         <div>
+          <span className="clone-button" onClick={() => this.props.cloneItem({name: this.props.name, producturl: this.props.producturl})}>
+            <i className="fas fa-clone"></i>
+          </span>
+        </div>
+        <div>
           <span className="add-button">
             <i className="fas fa-file-check"></i>
           </span>

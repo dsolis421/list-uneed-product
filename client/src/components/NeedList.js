@@ -34,6 +34,18 @@ class NeedList extends React.Component {
     .catch(err => console.log('clicking the item delete failed: ',err));
   }
 
+  cloneListItem(addItem) {
+    console.log('clone item button clicked', addItem);
+    axios.post('/api/needlist', addItem)
+    .then(() => {
+
+    })
+    .then(() => {
+      this.loadList();
+    })
+    .catch(err => console.log('clicking the item clone failed',err));
+  }
+
   componentDidMount() {
     this.loadList();
   }
@@ -57,7 +69,8 @@ class NeedList extends React.Component {
               status={item.status}
               name={item.name}
               producturl={item.producturl}
-              deleteItem={this.deleteListItem.bind(this)}/>
+              deleteItem={this.deleteListItem.bind(this)}
+              cloneItem={this.cloneListItem.bind(this)}/>
             )
           }) : (<p>No items to list</p>)
         }

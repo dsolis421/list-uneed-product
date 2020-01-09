@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 
 /*Models*/
 require('./models/ListingsModel');
-//routes
-var listingRoutes = require('./routes/listingRoutes');
 
 var app = express();
 
@@ -17,6 +15,9 @@ mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopo
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
+//routes
+var listingRoutes = require('./routes/listingRoutes');
 
 app.use(listingRoutes);
 
