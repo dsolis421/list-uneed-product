@@ -8,17 +8,19 @@ class NeedList extends React.Component {
     super();
 
     this.state = {
+      list: '',
       needList: []
     };
   }
 
   loadList() {
     console.log('retrieving needlist');
-    axios.get('/api/needlist')
-    .then(list => {
-      console.log('got list',list.data);
+    axios.get('/api/needlist/ssolis')
+    .then(listing => {
+      console.log('got list',listing.data);
       this.setState({
-        needList: list.data
+        list: listing.data[0]._id,
+        needList: listing.data[0].list
       });
     })
     .catch(err => console.log("failed to load list",err));
@@ -34,12 +36,9 @@ class NeedList extends React.Component {
     .catch(err => console.log('clicking the item delete failed: ',err));
   }
 
-  cloneListItem(addItem) {
-    console.log('clone item button clicked', addItem);
-    axios.post('/api/needlist', addItem)
-    .then(() => {
-
-    })
+  cloneListItem(list, addItem) {
+    console.log('clone item button clicked',list, addItem);
+    axios.post(`/api/needlist/${list}`, addItem)
     .then(() => {
       this.loadList();
     })
@@ -64,8 +63,9 @@ class NeedList extends React.Component {
         </div>
         {this.state.needList.length > 0 ? this.state.needList.map(item => {
           return (
-            <ListItem key={item._id}
-              id={item._id}
+            <ListItem key={item.key}
+              id={item.key}
+              list={this.state.list}
               status={item.status}
               name={item.name}
               producturl={item.producturl}

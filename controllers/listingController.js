@@ -1,13 +1,14 @@
 var mongoose = require('mongoose');
 const listings = mongoose.model('uneedlistings');
+const uuidv4 = require('uuid/v4');
 
 exports.getFullList = (req, resp, next) => {
   console.log('Listing items...')
-  listings.find().exec()
-  .then(list => {
+  listings.find({listowner: req.params.listowner}).exec()
+  .then(listing => {
     console.log('ListingModel Success');
     //resp.json(list);
-    return resp.status(200).send(list);
+    return resp.status(200).send(listing);
   })
   .catch(err => {
     console.log('controller error: ', err);
@@ -29,15 +30,21 @@ exports.removeListItem = (req, resp, next) => {
 };
 
 exports.addListItem = (req, resp, next) => {
-  console.log('trying to clone at the controller...');
-  const ITEM = new listings({
+  var uniqueid = uuidv4();
+  console.log('trying to clone at the controller...', req.body);
+  /*const ITEM = new listings({
     status: 'Needed',
+    key: uniqueid,
     name: req.body.name || 'No Name',
     producturl: req.body.producturl || ''
-  });
-  ITEM.save()
+  });*/
+  listings.findById(req.params._id).exec()
+  .then(listing => {
+    console.log('cloned a list item',listing);
+    listing.list.push({key: uniqueid, status: 'Needed', name: req.body.name || 'No Name', producturl: req.body.producturl || ''});
+    return listing.save();
+  })
   .then(() => {
-    console.log('cloned a list item');
     return resp.status(201).send({error: false});
   })
   .catch(err => {

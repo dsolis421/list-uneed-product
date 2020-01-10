@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 
-const listingSchema = new mongoose.Schema({
+const listItemSchema = new mongoose.Schema({
+  "key": {
+    type: String,
+    required: true
+  },
   "name": {
     type: String,
     required: true
@@ -12,6 +16,17 @@ const listingSchema = new mongoose.Schema({
   "producturl": {
     type: String,
     required: false
+  }
+});
+
+const listingSchema = new mongoose.Schema({
+  "listowner": {
+    type: String,
+    required: true
+  },
+  "list": {
+    type: [listItemSchema],
+    required: true
   }
 });
 
