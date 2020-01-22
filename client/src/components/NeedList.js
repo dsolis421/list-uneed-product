@@ -13,11 +13,16 @@ class NeedList extends React.Component {
     };
   }
 
+  /*filterList(items) {
+    items.key !== this;
+    return items;
+  }*/
+
   loadList() {
     console.log('retrieving needlist');
     axios.get('/api/needlist/ssolis')
     .then(listing => {
-      console.log('got list',listing.data);
+      console.log('got list',listing.data[0].list);
       this.setState({
         list: listing.data[0]._id,
         needList: listing.data[0].list
@@ -26,14 +31,21 @@ class NeedList extends React.Component {
     .catch(err => console.log("failed to load list",err));
   }
 
-  deleteListItem(item) {
-    console.log('delete item button clicked', item);
-    axios.delete('/api/needlist/' + item)
+  deleteListItem(id) {
+    console.log('delete item button clicked', id);
+    console.log('trying to update this list ', this.state.needList);
+    var updatedList = this.state.needList.filter((items) => {
+      return items.key !== id;
+    });
+    console.log('here is the updatedList ', updatedList);
+    this.setState({needList: updatedList});
+    console.log('new state needlist ', this.state.needList);
+    /*axios.delete('/api/needlist/' + item)
     .then(() => {
       console.log('new list incoming');
       this.loadList();
     })
-    .catch(err => console.log('clicking the item delete failed: ',err));
+    .catch(err => console.log('clicking the item delete failed: ',err));*/
   }
 
   cloneListItem(list, addItem) {
