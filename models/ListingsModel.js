@@ -16,6 +16,10 @@ const listItemSchema = new mongoose.Schema({
   "producturl": {
     type: String,
     required: false
+  },
+  "quantity": {
+    type: Number,
+    required: true
   }
 });
 

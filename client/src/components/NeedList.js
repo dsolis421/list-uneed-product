@@ -9,20 +9,16 @@ class NeedList extends React.Component {
 
     this.state = {
       list: '',
-      needList: []
+      needList: [],
+      showAddForm: false
     };
   }
 
-  /*filterList(items) {
-    items.key !== this;
-    return items;
-  }*/
-
   loadList() {
-    console.log('retrieving needlist');
+    //console.log('retrieving needlist');
     axios.get('/api/needlist/ssolis')
     .then(listing => {
-      console.log('got list',listing.data[0].list);
+      console.log('got list needlist');
       this.setState({
         list: listing.data[0]._id,
         needList: listing.data[0].list
@@ -32,25 +28,20 @@ class NeedList extends React.Component {
   }
 
   deleteListItem(id) {
-    console.log('delete item button clicked', id);
-    console.log('trying to update this list ', this.state.needList);
     var updatedList = this.state.needList.filter((items) => {
       return items.key !== id;
     });
-    console.log('here is the updatedList ', updatedList);
-    this.setState({needList: updatedList});
-    console.log('new state needlist ', this.state.needList);
-    /*axios.delete('/api/needlist/' + item)
+    axios.post('/api/removelistitem/ssolis', updatedList)
     .then(() => {
-      console.log('new list incoming');
+      //this.setState({needList: updatedList});
       this.loadList();
     })
-    .catch(err => console.log('clicking the item delete failed: ',err));*/
+    .catch(err => console.log('clicking the item delete failed: ',err));
   }
 
   cloneListItem(list, addItem) {
-    console.log('clone item button clicked',list, addItem);
-    axios.post(`/api/needlist/${list}`, addItem)
+    //console.log('clone item button clicked',list, addItem);
+    axios.post(`/api/addlistitem/${list}`, addItem)
     .then(() => {
       this.loadList();
     })

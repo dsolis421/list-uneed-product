@@ -4,6 +4,7 @@ const listingController = require('../controllers/listingController');
 
 router.get('/api/needlist/:listowner', listingController.getFullList);
 router.delete('/api/needlist/:key', listingController.removeListItem);
-router.post('/api/needlist/:_id', listingController.addListItem);
+router.post('/api/addlistitem/:_id', listingController.addListItem);
+router.post('/api/removelistitem/:listowner', listingController.removeListItem);
 
 module.exports = router;

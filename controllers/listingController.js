@@ -3,7 +3,7 @@ const listings = mongoose.model('uneedlistings');
 const uuidv4 = require('uuid/v4');
 
 exports.getFullList = (req, resp, next) => {
-  console.log('Listing items...')
+  //console.log('Listing items...')
   listings.find({listowner: req.params.listowner}).exec()
   .then(listing => {
     console.log('ListingModel Success');
@@ -17,11 +17,15 @@ exports.getFullList = (req, resp, next) => {
 };
 
 exports.removeListItem = (req, resp, next) => {
-  console.log('trying to delete at the controller...');
-  listings.findByIdAndRemove(req.params._id).exec()
-  .then(list => {
-    console.log('deleted a list item', list);
-    return resp.status(202).send({error: false, list});
+  //console.log('trying to update this list...');
+  listings.find({listowner: req.params.listowner}).exec()
+  .then(newlist => {
+    console.log('compiling newlist');
+    newlist[0].list = req.body;
+    return newlist[0].save();
+  })
+  .then(() => {
+    return resp.status(201).send({error: false});
   })
   .catch(err => {
     console.log('item delete error: ',err);
@@ -31,7 +35,7 @@ exports.removeListItem = (req, resp, next) => {
 
 exports.addListItem = (req, resp, next) => {
   var uniqueid = uuidv4();
-  console.log('trying to clone at the controller...', req.body);
+  //console.log('trying to clone at the controller...');
   /*const ITEM = new listings({
     status: 'Needed',
     key: uniqueid,
@@ -40,8 +44,8 @@ exports.addListItem = (req, resp, next) => {
   });*/
   listings.findById(req.params._id).exec()
   .then(listing => {
-    console.log('cloned a list item',listing);
-    listing.list.push({key: uniqueid, status: 'Needed', name: req.body.name || 'No Name', producturl: req.body.producturl || ''});
+    console.log('cloned a list item');
+    listing.list.unshift({key: uniqueid, status: 'Needed', name: req.body.name || 'No Name', producturl: req.body.producturl || '', quantity: 1});
     return listing.save();
   })
   .then(() => {
